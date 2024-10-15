@@ -1,6 +1,10 @@
 http://10.50.22.129:8000/
+my ip
+10.50.28.34
+    for the OpenVPN
+    https://cctc.cybbh.io/students/students/latest/openvpn-guide.html
 ANSP-M-007
-
+#DAY 1#
 PowerShell profiles are a convenient way to store PowerShell configuration information as well as personalized aliases and functions to persistent use in every PowerShell session.
 
 All Users, All Hosts        $PsHome\Profile.ps1
@@ -15,22 +19,101 @@ Test-Path -Path $profile.currentUserAllHosts
 Test-Path -Path $profile.AllUsersAllHosts
 Test-Path -Path $profile.AllUserscurrentHost
 
+Minimum commands to know
+  Query
+        Get-ChildItem cmdlet gets the items in one or more specified locations.
+        Get-ItemProperty cmdlet gets the items in one or more specified locations.
+        Get-Item cmdlet gets the item at the specified location. It doesn’t get the contents of the item at the location unless you use a wildcard character (*) to request all the contents of the item.
+ Modify
+        Set-ItemProperty cmdlet changes the value of the property of the specified item. example, changing setting to :true or :false.
+        Remove-ItemProperty cmdlet to delete registry values and the data that they store.
+ Create
+        New-Item cmdlet creates a new item and sets its value. In the registry, New-Item creates registry keys and entries.
+        New-Itemproperty cmdlet creates a new property for a specified item and sets its value. Typically, this cmdlet is used to create new registry values, because registry values are properties of a registry key item.
+
+--------------------
+#DAY 2#
+Windows Registry
 
 
+    HKEY_LOCAL_MACHINE (HKLM)
+    HARDWARE - contains a database of installed devices along with their drivers
+    SAM - Security Account Manager stores user and group accounts along with NTLM hashes of passwords
+    Security - Local Security policy accessed by lsass.exe used to determine rights and permissions for users on the machine
+    System - Contains keys pertaining to system startup such as programs started on boot or driver load order.
+    HKEY_USERS         (HKU)
+    HKEY_CURRENT_USERS (HKCU)
+    HKEY_CURRENT_CONFIG(HKCC)
+        symbolic link to KCLM -> SYSTEM -> CurrentControlSet -> Hardware Profiles -> Current
+    HKEY_CLASSES_ROOT  (HKCR)
+        symbolic link to KCLM -> Software -> Classes
+
+View/manipulate the registry with a GUI
+    regedit.exe
+
+reg /?                    #Displays help for all of the reg.exe commands
+reg query /?              #Displays help for the `reg query`
+reg add /?                #Displays help for `reg add`
+reg delete /?             #Displays help for `reg delete`
+
+Reg query - Reads keys from specific registry locations
+reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+
+Reg add - Adds keys to specific registry locations
+reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run /v testme /t REG_SZ /d C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+
+Reg delete - Deletes Keys
+reg delete HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run /v testme
+--------------------
+
+Create a network share to Sysinternals
+net use * http://live.sysinternals.com
+Type *autoruns -accepteula*
+
+Map to an Internal Server
+New-PSDrive -Name FileServer -PSProvider FileSystem -Root "\\file-server\warrior share"
+
+Microsoft Edge Internet URL history and Browser Artifacts and Forensics
+    HKEY_CLASSES_ROOT\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\Children\001\Internet Explorer\DOMStorage
+
+PERSISTANCE
+HKLM\Software\Microsoft\Windows\CurrentVersion\Run
+HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce
+HKU\<SID>\Software\Microsoft\Windows\CurrentVersion\Run
+HKU\<SID>\Software\Microsoft\Windows\CurrentVersion\RunOnce
+HKLM\SYSTEM\CurrentControlSet\services
+HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders
+HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders
+HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+--------------------
+#DAY 3#
+Alternate Data Streams
+Does not change the MD5 hash of the file.
+Great way to hide data using NTFS.
+
+C:\windows\system32>more < reminder.txt:secret.info 
+social security numbers
+
+Windows and Powershell way on checking Alternate Data Stream
+dir /R shows if alternate data stream is there 
+Get-Item reminder.txt -Stream * 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+01 : windows_powershell : start7917 
+02 : windows_powershell_profiles : start9943 
+04 : linux_basics2 : start8543 
+05 : windows_registry : start6223 
+06 : windows_alternate_data_stream : start2133 
+07 : windows_boot_process : start9022 
+08 : linux_boot_process : start2151 
+09 : windows_process_validity : start8280 
+10 : windows_uac : start4171 
+11 : windows_services : start4456 
+12 : linux_process_validity : start2817 
+13 : windows_auditing_and_logging : start2149 
+14 : linux_auditing_and_logging : start6597 
+15 : memory_analysis : start7420 
+16 : windows_active_directory_enumeration : start1641
 
 
 
