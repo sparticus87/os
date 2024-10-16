@@ -114,6 +114,70 @@ Get-Item reminder.txt -Stream *
 14 : linux_auditing_and_logging : start6597 
 15 : memory_analysis : start7420 
 16 : windows_active_directory_enumeration : start1641
+---------------------
+Windows Boot-Process
+
+
+
+Rootkits are a type of malware that hide themselves and other applications. They typically run in kernel mode, so they have the same privileges as the operating system and can sometimes start before it. Because traditionally, anti-malware software doesn’t load until after the kernel and boot drivers do, rootkits often exploit weaknesses in the startup process
+Firmware Rootkits overwrite the PC’s BIOS or other hardware firmware so the rootkit can start before the OS even loads
+Bootkits replace the OS bootloader to load the bootkit before the OS
+ Kernel rootkits replace a portion of the OS kernel so the rootkit can start when the OS loads
+ Driver rootkits pretend to be a boot driver that the OS uses to communicate with PC
+ Avenues of Attack An exposed operating system can be easily used to further Offensive goals such as pivots or compromised to steal data
+
+findstr /C:"Detected boot environment" "C:\Windows\Panther\Setupact.log"
+Get-Content C:\Windows\Panther\Setupact.log | Select-String "Detected boot environment"
+bcdedit | findstr /i winload
+bootmgfw.efi reads a BCD (Boot Configuration Data) located in the EFI system partition to load the file winload.efi
+tasklist /svc
+Q: What can I do if the Windows boot settings became corrupted?
+bcdedit /?
+
+Backup & Restore Current BCD settings
+c:\demo>bcdedit /export C:\Lion_BCD
+c:\demo>bcdedit /import C:\Lion_BCD
+
+bcdedit /deletevalue {current} safeboot (1)
+bcdedit /set {bootmgr} timeout 29 (2)
+---------------------
+Windows process Validity
+Get-Process | Select Name, Id, Description | Sort -Property Id | more
+tasklist
+
+
+scheduled tasks
+Get-ScheduledTask | Select * | select -First 1
+
+Q: What are some Abnormal things we could see in a process list?
+    Misspelling of process names and descriptions.
+        Ex. scvhost instead of svchost
+    Directory the process is running out of.
+    Q: Which directory are windows executables typically run out of?
+        System Processes run from C:\Windows\System32
+        Third party processes will run elsewhere.
+        Ex. Chrome runs from C:\Program Files
+    Processes that have non-standard listening ports open or ports with SYN/SENT.
+        Like HTTP being used on any port other than 80. (ex. HTTP over port 808 or 880)
+    Multiple processes with the same name that should be unique such as LSASS, SMSS
+        System process with a high PID.
+    Handles or DLLs a process is using.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
