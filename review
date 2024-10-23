@@ -1,0 +1,24 @@
+REVIEW DAY
+
+FORMS OF PERSISTENCE
+--linux--
+-Cron <-- /etc/Crontab, /var/spool/cron, /etc/cron.d
+-/etc/init <--sysv
+-/etc/profile
+-/etc/environment
+-/etc/inittab  <-- Sysv
+-/etc/rc.d/rc#.d/
+-/lib/systemd/systemd <-- SystemD
+-/usrlib/systemd/system <-- SystemD
+-Services <-- ps -elf, Top or HTop, Systemctl status <pid>
+
+--Windows--
+-Schtasks
+-Registry
+-Powershell Profile <-- $Profile.AllUsersAllHosts, $Profile.AllUsersCurrentHost, $Profile.CurrentUserAllHosts, $Profile.CurrentUserCurrentHost
+                           ^^^Test-Path -Path $Profile.CurrentUserCurrentHost
+-Services <-- Get-Service, Get-CimInstance(win32_service)
+-Processes <-- Get-Process -d <pid>
+ARTIFACTS <-- BAM, Prefetch, Userassist
+Ports 4444, 1234, 4321
+
